@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>21C北榮義美工具</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      text-align: center;
+      background-color: #f8f8f8;
+    }
+    input {
+      font-size: 18px;
+      padding: 10px;
+      margin: 10px;
+      width: 220px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+    .rounded-result {
+      font-size: 36px;
+      font-weight: bold;
+      color: red;
+      margin-top: 10px;
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <h2>21C北榮義美工具</h2>
+
+  <input id="num" type="number" step="any" placeholder="輸入數字">
+
+  <div class="result">
+    原始 ×0.9：<span id="raw">-</span><br>
+    套用規則結果：<span id="rounded" class="rounded-result">-</span>
+  </div>
+
+  <script>
+    const input = document.getElementById('num');
+    const rawSpan = document.getElementById('raw');
+    const roundedSpan = document.getElementById('rounded');
+
+    function calc() {
+      let val = parseFloat(input.value);
+      if (isNaN(val)) {
+        rawSpan.innerText = "-";
+        roundedSpan.innerText = "-";
+        return;
+      }
+
+      // 計算原始值 * 0.9
+      let base = val * 0.9;
+      rawSpan.innerText = base.toFixed(2);
+
+      // 取整數部分
+      let intPart = Math.floor(base);
+      // 取小數第一位
+      let firstDecimal = Math.floor(base * 10) - intPart * 10;
+
+      // 套用自訂進位規則
+      let result;
+      if (firstDecimal >= 6) {
+        result = Math.ceil(base);
+      } else {
+        result = Math.floor(base);
+      }
+
+      roundedSpan.innerText = result;
+    }
+
+    // 即時計算
+    input.addEventListener('input', calc);
+  </script>
+</body>
+</html>
